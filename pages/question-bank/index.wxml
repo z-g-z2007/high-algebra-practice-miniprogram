@@ -1,0 +1,71 @@
+<view class="container">
+  <view class="header">
+    <text class="header-title">题库管理</text>
+  </view>
+
+  <view class="filter-section">
+    <view class="filter-row">
+      <view class="filter-item">
+        <text class="filter-label">题目类型</text>
+        <picker class="filter-picker" mode="selector" range="{{questionTypes}}" value="{{typeIndex}}" bindchange="onTypeChange">
+          <view class="filter-value">{{questionTypes[typeIndex]}}</view>
+        </picker>
+      </view>
+      <view class="filter-item">
+        <text class="filter-label">难度等级</text>
+        <picker class="filter-picker" mode="selector" range="{{difficultyLevels}}" value="{{difficultyIndex}}" bindchange="onDifficultyChange">
+          <view class="filter-value">{{difficultyLevels[difficultyIndex]}}</view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <scroll-view class="question-list" scroll-y>
+    <view wx:if="{{questions.length === 0}}" class="empty-state">
+      <text class="empty-text">暂无题目</text>
+      <view class="contribute-btn" bindtap="goToContribute">
+        <text class="contribute-btn-text">去投稿</text>
+      </view>
+    </view>
+    
+    <view wx:for="{{questions}}" wx:key="id" class="question-item">
+      <view class="question-header">
+        <view class="question-type">{{item.type}}</view>
+        <view class="question-meta">
+          <text class="difficulty-badge" style="background: {{getDifficultyColor(item.difficulty)}}">{{item.difficulty}}</text>
+          <text class="author-info">作者：{{item.authorName}}</text>
+        </view>
+      </view>
+      <view class="question-content">
+        <text class="content-text">{{item.content}}</text>
+      </view>
+      <view class="question-footer">
+        <view class="diff-tag diff-{{item.difficulty === '简单' ? 'easy' : (item.difficulty === '中等' ? 'medium' : 'hard')}}">{{item.difficulty}}</view>
+        <view class="question-actions">
+          <view class="action-btn start-practice" bindtap="startPractice" data-question="{{item}}">
+            <text>开始练习</text>
+          </view>
+          <view class="action-btn view-answer" bindtap="viewAnswer" data-question="{{item}}">
+            <text>查看答案</text>
+          </view>
+          <view wx:if="{{!item.systemQuestion}}" class="action-btn delete-question" bindtap="deleteQuestion" data-id="{{item.id}}">
+            <text>删除</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class="answer-modal" wx:if="{{showAnswerModal}}">
+    <view class="modal-mask" bindtap="toggleAnswerModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">答案</text>
+        <text class="modal-close" bindtap="toggleAnswerModal">×</text>
+      </view>
+      <view class="modal-body">
+        <text class="answer-text">{{selectedQuestion.answer}}</text>
+      </view>
+    </view>
+  </view>
+</view>

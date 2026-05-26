@@ -1,0 +1,273 @@
+.container {
+  min-height: 100vh;
+  background: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 140rpx;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: #3b82f6;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.header-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
+.filter-section {
+  position: fixed;
+  top: 100rpx;
+  left: 0;
+  right: 0;
+  z-index: 99;
+  background: #ffffff;
+  padding: 12rpx 16rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+}
+
+.filter-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.filter-item {
+  flex: 1;
+}
+
+.filter-label {
+  display: block;
+  font-size: 24rpx;
+  color: #666666;
+  margin-bottom: 8rpx;
+}
+
+.filter-picker {
+  border: 1rpx solid #e2e8f0;
+  border-radius: 8rpx;
+  padding: 12rpx 16rpx;
+  background: #f8fafc;
+}
+
+.filter-value {
+  font-size: 26rpx;
+  color: #333333;
+}
+
+.question-list {
+  flex: 1;
+  padding: 16rpx;
+  margin-top: 5rpx;
+  max-height: calc(100vh - 5rpx);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #9ca3af;
+}
+
+.empty-text {
+  font-size: 32rpx;
+  margin-bottom: 16rpx;
+  display: block;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+}
+
+.contribute-btn {
+  display: inline-block;
+  margin-top: 20rpx;
+  padding: 20rpx 50rpx;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50rpx;
+}
+
+.contribute-btn-text {
+  color: #fff;
+  font-size: 28rpx;
+  font-weight: 500;
+}
+
+.question-item {
+  background: #ffffff;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.question-type {
+  font-size: 24rpx;
+  font-weight: 500;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.question-meta {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.difficulty-badge {
+  font-size: 20rpx;
+  color: #ffffff;
+  padding: 2rpx 8rpx;
+  border-radius: 8rpx;
+}
+
+.author-info {
+  font-size: 20rpx;
+  color: #9ca3af;
+}
+
+.question-content {
+  margin-bottom: 16rpx;
+  padding: 16rpx;
+  background: #f8fafc;
+  border-radius: 8rpx;
+}
+
+.content-text {
+  font-size: 26rpx;
+  color: #374151;
+  line-height: 1.5;
+}
+
+.question-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12rpx;
+  border-top: 1rpx solid #e5e7eb;
+}
+
+.diff-tag {
+  font-size: 20rpx;
+  font-weight: 500;
+  color: #ffffff;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  display: inline-block;
+}
+
+.diff-tag.diff-easy {
+  background-color: #10b981;
+}
+
+.diff-tag.diff-medium {
+  background-color: #f59e0b;
+}
+
+.diff-tag.diff-hard {
+  background-color: #ef4444;
+}
+
+.question-actions {
+  display: flex;
+  gap: 12rpx;
+}
+
+.action-btn {
+  padding: 6rpx 12rpx;
+  border-radius: 6rpx;
+  font-size: 20rpx;
+  cursor: pointer;
+}
+
+.start-practice {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.view-answer {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.delete-question {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.answer-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.modal-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 500rpx;
+  background: #ffffff;
+  border-radius: 16rpx;
+  box-shadow: 0 12rpx 24rpx rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 24rpx;
+  border-bottom: 1rpx solid #e5e7eb;
+}
+
+.modal-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111827;
+}
+
+.modal-close {
+  font-size: 32rpx;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 24rpx;
+}
+
+.answer-text {
+  font-size: 26rpx;
+  color: #374151;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
