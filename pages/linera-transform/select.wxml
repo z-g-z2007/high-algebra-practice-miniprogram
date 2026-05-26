@@ -1,0 +1,54 @@
+<view class="container">
+  <view class="section">
+    <view class="section-title">选择维度</view>
+    <view class="option-group">
+      <view class="option-btn {{dimension === 2 ? 'active' : ''}}" 
+            bindtap="selectDimension" data-dimension="2">
+        <text class="option-icon">2D</text>
+        <text class="option-text">二维平面</text>
+      </view>
+      <view class="option-btn {{dimension === 3 ? 'active' : ''}}" 
+            bindtap="selectDimension" data-dimension="3">
+        <text class="option-icon">3D</text>
+        <text class="option-text">三维空间</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">选择难度</view>
+    <view class="option-group three-col">
+      <view class="difficulty-btn {{difficulty === 'easy' ? 'active' : ''}}" 
+            style="{{difficulty === 'easy' ? 'border-color:' + difficulties[0].color : ''}}"
+            bindtap="selectDifficulty" data-difficulty="easy">
+        <text class="diff-name" style="{{difficulty === 'easy' ? 'color:' + difficulties[0].color : ''}}">
+          {{difficulties[0].name}}
+        </text>
+      </view>
+      <view class="difficulty-btn {{difficulty === 'medium' ? 'active' : ''}}" 
+            style="{{difficulty === 'medium' ? 'border-color:' + difficulties[1].color : ''}}"
+            bindtap="selectDifficulty" data-difficulty="medium">
+        <text class="diff-name" style="{{difficulty === 'medium' ? 'color:' + difficulties[1].color : ''}}">
+          {{difficulties[1].name}}
+        </text>
+      </view>
+      <view class="difficulty-btn {{difficulty === 'hard' ? 'active' : ''}}" 
+            style="{{difficulty === 'hard' ? 'border-color:' + difficulties[2].color : ''}}"
+            bindtap="selectDifficulty" data-difficulty="hard">
+        <text class="diff-name" style="{{difficulty === 'hard' ? 'color:' + difficulties[2].color : ''}}">
+          {{difficulties[2].name}}
+        </text>
+      </view>
+    </view>
+  </view>
+
+  <view class="start-area">
+    <view class="reference-btn" bindtap="showReference">
+      <text class="ref-icon">📖</text>
+      <text class="ref-text">变换矩阵参考手册</text>
+    </view>
+    <view class="start-btn" bindtap="startPractice">
+      <text class="start-text">开始随机抽题</text>
+    </view>
+  </view>
+</view>

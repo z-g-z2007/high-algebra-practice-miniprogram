@@ -1,0 +1,410 @@
+<view class="container">
+  <view class="canvas-section {{showResult || showAnswerModal ? 'hidden' : ''}}">
+    <canvas type="2d" id="drawingCanvas" canvas-id="drawingCanvas"
+            style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+            class="drawing-canvas"
+            catchtouchstart="onTouchStart"
+            catchtouchmove="onTouchMove"
+            catchtouchend="onTouchEnd"></canvas>
+  </view>
+
+  <view class="question-bar">
+    <text class="question-text">{{question.description}}</text>
+  </view>
+
+  <view class="answer-section">
+    <view class="section-title">📝 计算过程</view>
+
+    <view class="process-card" wx:if="{{dimension === 2}}">
+      <view class="process-row">
+        <text class="process-label">x' = </text>
+        <view class="calc-input {{calcInputs.a11 ? '' : 'placeholder'}} {{calcStates && calcStates.a11 || ''}}" bindtap="onCalcInputTap" data-step="a11">
+          <text>{{calcInputs.a11 || 'a₁₁'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">x</text>
+        <text class="op">+</text>
+        <view class="calc-input {{calcInputs.a12 ? '' : 'placeholder'}} {{calcStates && calcStates.a12 || ''}}" bindtap="onCalcInputTap" data-step="a12">
+          <text>{{calcInputs.a12 || 'a₁₂'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">y</text>
+      </view>
+      <view class="process-row">
+        <text class="process-label">y' = </text>
+        <view class="calc-input {{calcInputs.a21 ? '' : 'placeholder'}} {{calcStates && calcStates.a21 || ''}}" bindtap="onCalcInputTap" data-step="a21">
+          <text>{{calcInputs.a21 || 'a₂₁'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">x</text>
+        <text class="op">+</text>
+        <view class="calc-input {{calcInputs.a22 ? '' : 'placeholder'}} {{calcStates && calcStates.a22 || ''}}" bindtap="onCalcInputTap" data-step="a22">
+          <text>{{calcInputs.a22 || 'a₂₂'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">y</text>
+      </view>
+    </view>
+
+    <view class="process-card" wx:if="{{dimension === 3}}">
+      <view class="process-row">
+        <text class="process-label">x' = </text>
+        <view class="calc-input sm {{calcInputs.a11 ? '' : 'placeholder'}} {{calcStates && calcStates.a11 || ''}}" bindtap="onCalcInputTap" data-step="a11">
+          <text>{{calcInputs.a11 || 'a₁₁'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">x</text>
+        <text class="op">+</text>
+        <view class="calc-input sm {{calcInputs.a12 ? '' : 'placeholder'}} {{calcStates && calcStates.a12 || ''}}" bindtap="onCalcInputTap" data-step="a12">
+          <text>{{calcInputs.a12 || 'a₁₂'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">y</text>
+        <text class="op">+</text>
+        <view class="calc-input sm {{calcInputs.a13 ? '' : 'placeholder'}} {{calcStates && calcStates.a13 || ''}}" bindtap="onCalcInputTap" data-step="a13">
+          <text>{{calcInputs.a13 || 'a₁₃'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">z</text>
+      </view>
+      <view class="process-row">
+        <text class="process-label">y' = </text>
+        <view class="calc-input sm {{calcInputs.a21 ? '' : 'placeholder'}} {{calcStates && calcStates.a21 || ''}}" bindtap="onCalcInputTap" data-step="a21">
+          <text>{{calcInputs.a21 || 'a₂₁'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">x</text>
+        <text class="op">+</text>
+        <view class="calc-input sm {{calcInputs.a22 ? '' : 'placeholder'}} {{calcStates && calcStates.a22 || ''}}" bindtap="onCalcInputTap" data-step="a22">
+          <text>{{calcInputs.a22 || 'a₂₂'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">y</text>
+        <text class="op">+</text>
+        <view class="calc-input sm {{calcInputs.a23 ? '' : 'placeholder'}} {{calcStates && calcStates.a23 || ''}}" bindtap="onCalcInputTap" data-step="a23">
+          <text>{{calcInputs.a23 || 'a₂₃'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">z</text>
+      </view>
+      <view class="process-row">
+        <text class="process-label">z' = </text>
+        <view class="calc-input sm {{calcInputs.a31 ? '' : 'placeholder'}} {{calcStates && calcStates.a31 || ''}}" bindtap="onCalcInputTap" data-step="a31">
+          <text>{{calcInputs.a31 || 'a₃₁'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">x</text>
+        <text class="op">+</text>
+        <view class="calc-input sm {{calcInputs.a32 ? '' : 'placeholder'}} {{calcStates && calcStates.a32 || ''}}" bindtap="onCalcInputTap" data-step="a32">
+          <text>{{calcInputs.a32 || 'a₃₂'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">y</text>
+        <text class="op">+</text>
+        <view class="calc-input sm {{calcInputs.a33 ? '' : 'placeholder'}} {{calcStates && calcStates.a33 || ''}}" bindtap="onCalcInputTap" data-step="a33">
+          <text>{{calcInputs.a33 || 'a₃₃'}}</text>
+        </view>
+        <text class="op">×</text>
+        <text class="var-text">z</text>
+      </view>
+    </view>
+
+    <view class="section-title" style="margin-top: 30rpx;">✨ 变换矩阵</view>
+
+    <view class="matrix-card">
+      <view class="matrix-input-row">
+        <view class="matrix-bracket left">[</view>
+        <view class="matrix-grid">
+          <view class="matrix-row" wx:if="{{dimension === 2}}">
+            <view class="matrix-cell {{selectedRow === 0 && selectedCol === 0 ? 'selected' : ''}} {{cellStates && cellStates[0] && cellStates[0][0] || ''}}" bindtap="onCellTap" data-row="0" data-col="0">
+              <text>{{userAnswer[0][0] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 0 && selectedCol === 1 ? 'selected' : ''}} {{cellStates && cellStates[0] && cellStates[0][1] || ''}}" bindtap="onCellTap" data-row="0" data-col="1">
+              <text>{{userAnswer[0][1] || '0'}}</text>
+            </view>
+          </view>
+          <view class="matrix-row" wx:if="{{dimension === 2}}">
+            <view class="matrix-cell {{selectedRow === 1 && selectedCol === 0 ? 'selected' : ''}} {{cellStates && cellStates[1] && cellStates[1][0] || ''}}" bindtap="onCellTap" data-row="1" data-col="0">
+              <text>{{userAnswer[1][0] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 1 && selectedCol === 1 ? 'selected' : ''}} {{cellStates && cellStates[1] && cellStates[1][1] || ''}}" bindtap="onCellTap" data-row="1" data-col="1">
+              <text>{{userAnswer[1][1] || '0'}}</text>
+            </view>
+          </view>
+          <view class="matrix-row" wx:if="{{dimension === 3}}">
+            <view class="matrix-cell {{selectedRow === 0 && selectedCol === 0 ? 'selected' : ''}} {{cellStates && cellStates[0] && cellStates[0][0] || ''}}" bindtap="onCellTap" data-row="0" data-col="0">
+              <text>{{userAnswer[0][0] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 0 && selectedCol === 1 ? 'selected' : ''}} {{cellStates && cellStates[0] && cellStates[0][1] || ''}}" bindtap="onCellTap" data-row="0" data-col="1">
+              <text>{{userAnswer[0][1] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 0 && selectedCol === 2 ? 'selected' : ''}} {{cellStates && cellStates[0] && cellStates[0][2] || ''}}" bindtap="onCellTap" data-row="0" data-col="2">
+              <text>{{userAnswer[0][2] || '0'}}</text>
+            </view>
+          </view>
+          <view class="matrix-row" wx:if="{{dimension === 3}}">
+            <view class="matrix-cell {{selectedRow === 1 && selectedCol === 0 ? 'selected' : ''}} {{cellStates && cellStates[1] && cellStates[1][0] || ''}}" bindtap="onCellTap" data-row="1" data-col="0">
+              <text>{{userAnswer[1][0] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 1 && selectedCol === 1 ? 'selected' : ''}} {{cellStates && cellStates[1] && cellStates[1][1] || ''}}" bindtap="onCellTap" data-row="1" data-col="1">
+              <text>{{userAnswer[1][1] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 1 && selectedCol === 2 ? 'selected' : ''}} {{cellStates && cellStates[1] && cellStates[1][2] || ''}}" bindtap="onCellTap" data-row="1" data-col="2">
+              <text>{{userAnswer[1][2] || '0'}}</text>
+            </view>
+          </view>
+          <view class="matrix-row" wx:if="{{dimension === 3}}">
+            <view class="matrix-cell {{selectedRow === 2 && selectedCol === 0 ? 'selected' : ''}} {{cellStates && cellStates[2] && cellStates[2][0] || ''}}" bindtap="onCellTap" data-row="2" data-col="0">
+              <text>{{userAnswer[2][0] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 2 && selectedCol === 1 ? 'selected' : ''}} {{cellStates && cellStates[2] && cellStates[2][1] || ''}}" bindtap="onCellTap" data-row="2" data-col="1">
+              <text>{{userAnswer[2][1] || '0'}}</text>
+            </view>
+            <view class="matrix-cell {{selectedRow === 2 && selectedCol === 2 ? 'selected' : ''}} {{cellStates && cellStates[2] && cellStates[2][2] || ''}}" bindtap="onCellTap" data-row="2" data-col="2">
+              <text>{{userAnswer[2][2] || '0'}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="matrix-bracket right">]</view>
+      </view>
+    </view>
+
+    <view class="section-title" style="margin-top: 30rpx;">✨ 变换结果</view>
+
+    <view class="result-card">
+      <text class="result-label">v' = ( </text>
+      <view class="calc-input result-lg {{calcInputs.result_x ? '' : 'placeholder'}} {{resultStates && resultStates.result_x || ''}}" bindtap="onCalcInputTap" data-step="result_x">
+        <text>{{calcInputs.result_x || '?'}}</text>
+      </view>
+      <text class="result-sep">,</text>
+      <view class="calc-input result-lg {{calcInputs.result_y ? '' : 'placeholder'}} {{resultStates && resultStates.result_y || ''}}" bindtap="onCalcInputTap" data-step="result_y">
+        <text>{{calcInputs.result_y || '?'}}</text>
+      </view>
+      <text class="result-z" wx:if="{{dimension === 3}}">,</text>
+      <view class="calc-input result-lg {{calcInputs.result_z ? '' : 'placeholder'}} {{resultStates && resultStates.result_z || ''}}" wx:if="{{dimension === 3}}" bindtap="onCalcInputTap" data-step="result_z">
+        <text>{{calcInputs.result_z || '?'}}</text>
+      </view>
+      <text class="result-label"> )ᵀ</text>
+    </view>
+  </view>
+
+  <view class="control-row">
+    <view class="ctrl-btn hint" bindtap="checkAnswer">
+      <text>检查</text>
+    </view>
+    <view class="ctrl-btn" bindtap="resetQuestion">
+      <text>重置</text>
+    </view>
+    <view class="ctrl-btn primary" bindtap="submitAnswer">
+      <text>提交</text>
+    </view>
+  </view>
+
+  <view class="result-overlay" wx:if="{{showResult}}">
+    <view class="overlay-card">
+      <text class="result-icon">{{isCorrect ? '🎉' : '😢'}}</text>
+      <text class="result-title">{{isCorrect ? '回答正确！' : '答案有误'}}</text>
+      <text class="result-steps">{{isCorrect ? '太棒了！继续加油！' : '再试一次吧'}}</text>
+      <view class="result-actions">
+        <view class="result-btn" bindtap="resetQuestion">
+          <text>重新练习</text>
+        </view>
+        <view class="result-btn primary" bindtap="nextQuestion">
+          <text>下一题</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="answer-overlay" wx:if="{{showAnswerModal}}">
+    <view class="answer-modal">
+      <view class="answer-header">
+        <text class="answer-title">📖 标准答案</text>
+        <text class="answer-close" bindtap="closeAnswer">×</text>
+      </view>
+      <scroll-view class="answer-body" scroll-y>
+        <view class="answer-section-title">✨ 变换矩阵</view>
+        <view class="answer-matrix-card">
+          <view class="matrix-input-row">
+            <view class="matrix-bracket left">[</view>
+            <view class="matrix-grid">
+              <view class="matrix-row" wx:if="{{dimension === 2}}">
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[0][0]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[0][1]}}</text>
+                </view>
+              </view>
+              <view class="matrix-row" wx:if="{{dimension === 2}}">
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[1][0]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[1][1]}}</text>
+                </view>
+              </view>
+              <view class="matrix-row" wx:if="{{dimension === 3}}">
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[0][0]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[0][1]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[0][2]}}</text>
+                </view>
+              </view>
+              <view class="matrix-row" wx:if="{{dimension === 3}}">
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[1][0]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[1][1]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[1][2]}}</text>
+                </view>
+              </view>
+              <view class="matrix-row" wx:if="{{dimension === 3}}">
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[2][0]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[2][1]}}</text>
+                </view>
+                <view class="matrix-cell">
+                  <text>{{answerMatrix[2][2]}}</text>
+                </view>
+              </view>
+            </view>
+            <view class="matrix-bracket right">]</view>
+          </view>
+        </view>
+
+        <view class="answer-section-title" style="margin-top: 24rpx;">✨ 计算过程</view>
+        <view class="answer-process-card">
+          <view class="process-row" wx:if="{{dimension === 2}}">
+            <text class="process-label">x' = </text>
+            <text class="answer-calc-val">{{answerMatrix[0][0]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">x</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val">{{answerMatrix[0][1]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">y</text>
+          </view>
+          <view class="process-row" wx:if="{{dimension === 2}}">
+            <text class="process-label">y' = </text>
+            <text class="answer-calc-val">{{answerMatrix[1][0]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">x</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val">{{answerMatrix[1][1]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">y</text>
+          </view>
+          <view class="process-row" wx:if="{{dimension === 3}}">
+            <text class="process-label">x' = </text>
+            <text class="answer-calc-val sm">{{answerMatrix[0][0]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">x</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val sm">{{answerMatrix[0][1]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">y</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val sm">{{answerMatrix[0][2]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">z</text>
+          </view>
+          <view class="process-row" wx:if="{{dimension === 3}}">
+            <text class="process-label">y' = </text>
+            <text class="answer-calc-val sm">{{answerMatrix[1][0]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">x</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val sm">{{answerMatrix[1][1]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">y</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val sm">{{answerMatrix[1][2]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">z</text>
+          </view>
+          <view class="process-row" wx:if="{{dimension === 3}}">
+            <text class="process-label">z' = </text>
+            <text class="answer-calc-val sm">{{answerMatrix[2][0]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">x</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val sm">{{answerMatrix[2][1]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">y</text>
+            <text class="op">+</text>
+            <text class="answer-calc-val sm">{{answerMatrix[2][2]}}</text>
+            <text class="op">×</text>
+            <text class="var-text">z</text>
+          </view>
+        </view>
+
+        <view class="answer-section-title" style="margin-top: 24rpx;">✨ 变换结果</view>
+        <view class="answer-result-card">
+          <text class="result-label">v' = ( </text>
+          <text class="answer-result-val">{{answerResult[0]}}</text>
+          <text class="result-sep">,</text>
+          <text class="answer-result-val">{{answerResult[1]}}</text>
+          <text class="result-z" wx:if="{{dimension === 3}}">,</text>
+          <text class="answer-result-val" wx:if="{{dimension === 3}}">{{answerResult[2]}}</text>
+          <text class="result-label"> )ᵀ</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="custom-keyboard {{showKeyboard ? 'show' : ''}}" wx:if="{{showKeyboard}}">
+    <view class="keyboard-display">
+      <text class="keyboard-title">{{keyboardTitle || '输入数值'}}</text>
+      <view class="keyboard-current">
+        <text>{{keyboardValue || '0'}}</text>
+      </view>
+    </view>
+    <view class="keyboard-keys">
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="1"><text>1</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="2"><text>2</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="3"><text>3</text></view>
+        <view class="key-btn key-op" bindtap="onKeyInput" data-value="-"><text>−</text></view>
+        <view class="key-btn key-clear" bindtap="onKeyClear"><text>C</text></view>
+      </view>
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="4"><text>4</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="5"><text>5</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="6"><text>6</text></view>
+        <view class="key-btn key-op" bindtap="onKeyInput" data-value="."><text>.</text></view>
+        <view class="key-btn key-backspace" bindtap="onKeyBackspace"><text>⌫</text></view>
+      </view>
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="7"><text>7</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="8"><text>8</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="9"><text>9</text></view>
+        <view class="key-btn key-zero" bindtap="onKeyInput" data-value="0"><text>0</text></view>
+        <view class="key-btn key-confirm" bindtap="onKeyConfirm"><text>确定</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="ai-float-container">
+    <view class="ai-float-bubble {{showBubble ? 'show' : ''}}">
+      <text>{{bubbleText}}</text>
+    </view>
+    <view 
+      class="ai-float-btn {{floatBtnClass}}" 
+      bindtap="onFloatBtnTap" 
+      bindtouchstart="onFloatBtnTouchStart"
+      bindtouchend="onFloatBtnTouchEnd"
+    >
+      <text class="ai-float-icon">{{floatIcon}}</text>
+    </view>
+  </view>
+</view>
