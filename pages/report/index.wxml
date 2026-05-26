@@ -1,0 +1,53 @@
+<view class="report-container">
+  <view class="report-header">
+    <text class="back-btn" bindtap="goBack">‹</text>
+    <text class="report-title">练习报告</text>
+    <view class="header-right"></view>
+  </view>
+  
+  <view class="report-content">
+    <!-- 统计概览 -->
+    <view class="stats-section">
+      <text class="section-title">练习统计</text>
+      <view class="stats-grid">
+        <view class="stat-item">
+          <text class="stat-value">{{totalPractice}}</text>
+          <text class="stat-label">总练习</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{correctRate}}%</text>
+          <text class="stat-label">正确率</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{wrongCount}}</text>
+          <text class="stat-label">错题数量</text>
+        </view>
+        <view class="stat-item">
+          <text class="stat-value">{{consecutiveDays}}</text>
+          <text class="stat-label">连续天数</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 错题详情 -->
+    <view class="wrong-section">
+      <text class="section-title">错题详情</text>
+      <view wx:if="{{wrongQuestions.length === 0}}" class="empty-wrong">
+        <text class="empty-wrong-text">暂无错题记录</text>
+      </view>
+      <view wx:else>
+        <view wx:for="{{wrongQuestions}}" wx:key="id" class="wrong-item" bindtap="redoQuestion" data-id="{{item.id}}" data-type="{{item.type}}">
+            <view class="wrong-header">
+              <text class="wrong-type">{{item.type}}</text>
+              <text class="wrong-time">{{item.time}}</text>
+            </view>
+            <text class="wrong-question">{{item.question}}</text>
+            <view class="wrong-footer">
+              <text class="wrong-status">{{item.status}}</text>
+              <text class="wrong-action">重做</text>
+            </view>
+          </view>
+      </view>
+    </view>
+  </view>
+</view>
