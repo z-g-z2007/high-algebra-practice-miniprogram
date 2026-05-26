@@ -1,0 +1,18 @@
+<view class="tab-bar">
+  <view class="tab-item" bindtap="switchTab0">
+    <text class="emoji">🏠</text>
+    <text class="text">首页</text>
+  </view>
+  <view class="tab-item" bindtap="switchTab1">
+    <text class="emoji">💬</text>
+    <text class="text">答疑</text>
+  </view>
+  <view class="tab-item" bindtap="switchTab2">
+    <text class="emoji">📝</text>
+    <text class="text">题库</text>
+  </view>
+  <view class="tab-item" bindtap="switchTab3">
+    <text class="emoji">👤</text>
+    <text class="text">我的</text>
+  </view>
+</view>
