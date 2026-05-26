@@ -1,0 +1,60 @@
+<view class="container">
+  <view class="content">
+    <view class="section-title">选择矩阵阶数</view>
+    <view class="size-group">
+      <view class="size-btn {{matrixSize === 2 ? 'active' : ''}}"
+            bindtap="selectSize" data-size="2">
+        <text class="size-num">2×2</text>
+        <text class="size-desc">入门基础</text>
+      </view>
+      <view class="size-btn {{matrixSize === 3 ? 'active' : ''}}"
+            bindtap="selectSize" data-size="3">
+        <text class="size-num">3×3</text>
+        <text class="size-desc">课堂主力</text>
+      </view>
+      <view class="size-btn {{matrixSize === 4 ? 'active' : ''}}"
+            bindtap="selectSize" data-size="4">
+        <text class="size-num">4×4</text>
+        <text class="size-desc">拔高强化</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">选择化简目标</view>
+    <view class="target-group">
+      <view class="target-btn {{target === 'echelon' ? 'active' : ''}}"
+            bindtap="selectTarget" data-target="echelon">
+        <text class="target-name">{{targets[0].name}}</text>
+        <text class="target-desc">{{targets[0].desc}}</text>
+      </view>
+      <view class="target-btn {{target === 'reduced' ? 'active' : ''}}"
+            bindtap="selectTarget" data-target="reduced">
+        <text class="target-name">{{targets[1].name}}</text>
+        <text class="target-desc">{{targets[1].desc}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="rules-card">
+    <view class="rules-title">初等变换规则</view>
+    <view class="rule-item">
+      <text class="rule-icon">⇄</text>
+      <text class="rule-text">交换两行位置</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-icon">×k</text>
+      <text class="rule-text">某行乘以非零常数k</text>
+    </view>
+    <view class="rule-item">
+      <text class="rule-icon">+</text>
+      <text class="rule-text">某行加上另一行的k倍</text>
+    </view>
+  </view>
+
+  <view class="start-area">
+    <view class="start-btn" bindtap="startPractice">
+      <text class="start-text">开始随机出题</text>
+    </view>
+  </view>
+</view>

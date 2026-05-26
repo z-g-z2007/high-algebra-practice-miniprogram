@@ -1,0 +1,262 @@
+<view class="container">
+  <view class="info-bar">
+    <view class="info-item">
+      <text class="info-label">目标</text>
+      <text class="info-value">{{target === 'echelon' ? '行阶梯形' : '行最简形'}}</text>
+    </view>
+    <view class="info-item">
+      <text class="info-label">步数</text>
+      <text class="info-value">{{stepCount}}</text>
+    </view>
+  </view>
+
+  <view class="calc-process-section">
+    <view class="calc-process-header">
+      <text class="calc-process-title">📝 变换过程</text>
+    </view>
+    <view class="steps-list" wx:if="{{steps.length > 0}}">
+      <view class="step-item {{step.isCorrect === false ? 'error' : (step.isWarning ? 'warning' : (step.isCorrect === true ? 'correct' : ''))}}" wx:for="{{steps}}" wx:for-item="step" wx:key="index">
+        <view class="step-header">
+          <view class="step-num">{{index + 1}}</view>
+          <text class="step-operation">{{step.description}}</text>
+          <view class="step-status" wx:if="{{step.isCorrect !== undefined || step.isWarning}}">
+            <text wx:if="{{step.isCorrect && !step.isWarning}}" class="status-icon correct">✓</text>
+            <text wx:elif="{{step.isWarning}}" class="status-icon warning">⚠️</text>
+            <text wx:else class="status-icon error">✗</text>
+          </view>
+        </view>
+        <view class="step-matrix-comparison">
+          <view class="step-matrix-box">
+            <text class="step-matrix-label">变换前</text>
+            <view class="step-matrix">
+              <view class="step-matrix-row" wx:for="{{step.prevMatrix}}" wx:for-item="row" wx:key="*this">
+                <view wx:for="{{row}}" wx:for-item="val" wx:key="*this" class="step-matrix-cell">
+                  <text>{{val}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="step-arrow">⇒</view>
+          <view class="step-matrix-box">
+            <text class="step-matrix-label">变换后</text>
+            <view class="step-matrix">
+              <view class="step-matrix-row" wx:for="{{step.matrix}}" wx:for-item="row" wx:key="*this">
+                <view wx:for="{{row}}" wx:for-item="val" wx:key="*this" class="step-matrix-cell highlight">
+                  <text>{{val}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="step-error-hint" wx:if="{{step.isCorrect === false}}">
+          <text>⚠️ 此步骤计算错误，请检查操作</text>
+        </view>
+      </view>
+    </view>
+    <view class="steps-empty" wx:else>
+      <text>暂无变换步骤</text>
+      <text class="steps-empty-hint">选择下方操作开始变换</text>
+    </view>
+  </view>
+
+  <view class="matrix-display">
+    <view class="matrix-header">
+      <text class="matrix-title">当前矩阵</text>
+    </view>
+    <view class="matrix-main">
+      <view class="row-labels">
+        <view class="row-label" wx:for="{{rowLabels}}" wx:for-item="label">
+          <text>{{label}}</text>
+        </view>
+      </view>
+      <view class="matrix-content">
+        <view class="matrix-row" wx:for="{{currentMatrix}}" wx:for-item="row" wx:for-index="i" wx:key="i">
+          <view wx:for="{{row}}" wx:for-item="val" wx:for-index="j" wx:key="j" class="matrix-cell">
+            <text class="cell-value">{{val}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="operation-panel">
+    <view class="op-buttons">
+      <view class="op-btn {{operationType === 'swap' ? 'active' : ''}}" bindtap="selectOperation" data-type="swap">
+        <text class="op-icon">⇄</text>
+        <text class="op-label">交换两行</text>
+      </view>
+      <view class="op-btn {{operationType === 'multiply' ? 'active' : ''}}" bindtap="selectOperation" data-type="multiply">
+        <text class="op-icon">×k</text>
+        <text class="op-label">数乘某行</text>
+      </view>
+      <view class="op-btn {{operationType === 'addMultiple' ? 'active' : ''}}" bindtap="selectOperation" data-type="addMultiple">
+        <text class="op-icon">+</text>
+        <text class="op-label">倍加变换</text>
+      </view>
+    </view>
+
+    <view class="row-selector" wx:if="{{operationType}}">
+      <view class="row-selector-header">
+        <text class="row-selector-title">选择行</text>
+        <text class="row-selector-hint">{{operationType === 'swap' ? '（选择两行进行交换）' : operationType === 'multiply' ? '（选择要乘的行）' : '（先选源行，再选目标行）'}}</text>
+      </view>
+      <view class="row-buttons">
+        <view class="row-btn {{selectedRow1 === index ? 'selected source' : selectedRow2 === index ? 'selected target' : ''}}" wx:for="{{size}}" wx:for-index="index" bindtap="selectRow" data-row="{{index}}">
+          <text>R{{index + 1}}</text>
+          <view class="row-btn-tag" wx:if="{{selectedRow1 === index}}">源</view>
+          <view class="row-btn-tag target" wx:if="{{selectedRow2 === index}}">目标</view>
+        </view>
+      </view>
+      <view class="multiplier-display" wx:if="{{operationType !== 'swap'}}" bindtap="onMultiplierTap">
+        <text class="multiplier-label">k =</text>
+        <view class="multiplier-cell">
+          <text>{{multiplier || '?'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="action-row">
+      <view class="action-btn" bindtap="undo">
+        <text>撤销</text>
+      </view>
+      <view class="action-btn execute" bindtap="executeOperation" wx:if="{{operationType}}">
+        <text>执行变换</text>
+      </view>
+      <view class="action-btn" bindtap="redo">
+        <text>重做</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="control-row">
+    <view class="ctrl-btn hint" bindtap="checkSteps">
+      <text>检查</text>
+    </view>
+    <view class="ctrl-btn" bindtap="reset">
+      <text>重置</text>
+    </view>
+    <view class="ctrl-btn primary" bindtap="submitAnswer">
+      <text>完成</text>
+    </view>
+  </view>
+
+  <view class="result-overlay" wx:if="{{showResult}}">
+    <view class="result-card">
+      <text class="result-icon">{{isComplete ? '🎉' : '😢'}}</text>
+      <text class="result-title">{{isComplete ? '化简完成！' : '还未化简到目标形式'}}</text>
+      <text class="result-steps">共用了 {{stepCount}} 步</text>
+      <view class="result-summary" wx:if="{{steps.length > 0}}">
+        <text class="result-summary-title">变换过程：</text>
+        <view class="result-summary-steps">
+          <view class="result-summary-step" wx:for="{{steps}}" wx:key="index">
+            <text class="result-summary-num">{{index + 1}}.</text>
+            <text class="result-summary-text">{{step.description}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="result-actions">
+        <view class="result-btn" bindtap="reset">
+          <text>重新练习</text>
+        </view>
+        <view class="result-btn primary" bindtap="nextQuestion">
+          <text>下一题</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="answer-overlay" wx:if="{{showAnswerModal}}">
+    <view class="answer-modal">
+      <view class="answer-header">
+        <text class="answer-title">📖 标准答案</text>
+        <text class="answer-close" bindtap="closeAnswer">×</text>
+      </view>
+      <scroll-view class="answer-body" scroll-y>
+        <view class="answer-steps-list">
+          <view class="answer-step-item" wx:for="{{answerSteps}}" wx:key="index">
+            <view class="answer-step-num">{{index + 1}}</view>
+            <view class="answer-step-content">
+              <view class="answer-step-matrix-row">
+                <view class="answer-step-matrix-box">
+                  <text class="answer-step-matrix-label">变换前</text>
+                  <view class="answer-step-matrix">
+                    <view class="answer-m-row" wx:if="{{index > 0}}" wx:for="{{answerSteps[index-1].matrix}}" wx:for-item="row" wx:key="*this">
+                      <text wx:for="{{row}}" wx:for-item="val" wx:key="*this" class="answer-m-val">{{val}}</text>
+                    </view>
+                    <view class="answer-m-row" wx:if="{{index === 0}}" wx:for="{{answerSteps[index].matrix}}" wx:key="*this">
+                      <text wx:for="{{row}}" wx:for-item="val" wx:key="*this" class="answer-m-val" style="opacity:0.5">{{val}}</text>
+                    </view>
+                  </view>
+                </view>
+                <view class="answer-step-arrow">⇒</view>
+                <view class="answer-step-matrix-box">
+                  <text class="answer-step-matrix-label">变换后</text>
+                  <view class="answer-step-matrix">
+                    <view class="answer-m-row" wx:for="{{item.matrix}}" wx:for-item="row" wx:key="*this">
+                      <text wx:for="{{row}}" wx:for-item="val" wx:key="*this" class="answer-m-val">{{val}}</text>
+                    </view>
+                  </view>
+                </view>
+              </view>
+              <text class="answer-step-desc">{{item.description}}</text>
+            </view>
+          </view>
+        </view>
+        <view class="answer-final">
+          <text class="answer-final-label">最终结果：</text>
+          <view class="answer-final-matrix">
+            <view class="answer-matrix-row" wx:for="{{answerMatrix}}" wx:for-item="row" wx:key="*this">
+              <text wx:for="{{row}}" wx:for-item="val" wx:key="*this" class="answer-matrix-val">{{val}}</text>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+
+  <view class="custom-keyboard {{showKeyboard ? 'show' : ''}}" wx:if="{{showKeyboard}}">
+    <view class="keyboard-display">
+      <text class="keyboard-title">输入倍数 k</text>
+      <view class="keyboard-current">
+        <text>{{keyboardValue || '0'}}</text>
+      </view>
+    </view>
+    <view class="keyboard-keys">
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="1"><text>1</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="2"><text>2</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="3"><text>3</text></view>
+        <view class="key-btn key-op" bindtap="onKeyInput" data-value="-"><text>−</text></view>
+        <view class="key-btn key-clear" bindtap="onKeyClear"><text>C</text></view>
+      </view>
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="4"><text>4</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="5"><text>5</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="6"><text>6</text></view>
+        <view class="key-btn key-op" bindtap="onKeyInput" data-value="."><text>.</text></view>
+        <view class="key-btn key-backspace" bindtap="onKeyBackspace"><text>⌫</text></view>
+      </view>
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="7"><text>7</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="8"><text>8</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="9"><text>9</text></view>
+        <view class="key-btn key-zero" bindtap="onKeyInput" data-value="0"><text>0</text></view>
+        <view class="key-btn key-confirm" bindtap="onKeyConfirm"><text>确定</text></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="ai-float-container">
+    <view class="ai-float-bubble {{showBubble ? 'show' : ''}}">
+      <text>{{bubbleText}}</text>
+    </view>
+    <view 
+      class="ai-float-btn {{floatBtnClass}}" 
+      bindtap="onFloatBtnTap" 
+      bindtouchstart="onFloatBtnTouchStart"
+      bindtouchend="onFloatBtnTouchEnd"
+    >
+      <text class="ai-float-icon">{{floatIcon}}</text>
+    </view>
+  </view>
+</view>
