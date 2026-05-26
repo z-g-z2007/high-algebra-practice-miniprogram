@@ -1,0 +1,75 @@
+<view class="ai-page">
+
+  
+  <scroll-view class="message-list" scroll-y scroll-top="{{scrollTop}}">
+    <view class="system-message">
+      <text class="system-text">今天 12:00</text>
+    </view>
+
+    <view wx:if="{{messages.length === 0}}" class="empty-state">
+      <view class="empty-title">你好，我是ai答疑助手小铭</view>
+      <view class="empty-subtitle">可以问我线性代数相关问题，例如：</view>
+      <view class="suggestion-list">
+        <view class="suggestion-chip" data-question="什么是线性变换？" bindtap="quickAsk">什么是线性变换？</view>
+        <view class="suggestion-chip" data-question="如何计算矩阵的秩？" bindtap="quickAsk">如何计算矩阵的秩？</view>
+        <view class="suggestion-chip" data-question="初等行变换有哪些？" bindtap="quickAsk">初等行变换有哪些？</view>
+      </view>
+    </view>
+
+    <view wx:for="{{messages}}" wx:key="index" class="message-item {{item.type === 'user' ? 'user-message' : ''}}">
+      <view class="message-avatar {{item.type === 'ai' ? 'ai-avatar' : 'user-avatar'}}">
+        {{item.type === 'ai' ? 'AI' : '我'}}
+      </view>
+      <view class="message-content">
+        <view class="message-bubble {{item.type === 'user' ? 'user-bubble' : 'ai-bubble'}}">
+          <text wx:if="{{item.type === 'user'}}" class="message-text">{{item.content}}</text>
+          <rich-text wx:else class="message-text" nodes="{{item.content}}"></rich-text>
+        </view>
+        <text class="message-time">{{item.time}}</text>
+      </view>
+    </view>
+
+    <!-- AI思考中状态 -->
+    <view wx:if="{{isAIThinking}}" class="message-item thinking-message">
+      <view class="message-avatar ai-avatar">AI</view>
+      <view class="message-content">
+        <view class="message-bubble ai-bubble thinking-bubble">
+          <view class="thinking-dots">
+            <view class="dot"></view>
+            <view class="dot"></view>
+            <view class="dot"></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  
+  <view class="input-area"> 
+    <input class="text-input" type="text" confirm-type="send" placeholder="输入问题，按发送" value="{{inputValue}}" bindinput="onInput" bindconfirm="sendMessage" />
+    <button class="voice-btn" bindtap="takePhoto">
+      <view class="camera-icon">
+        <view class="camera-body"></view>
+        <view class="camera-lens"></view>
+      </view>
+    </button>
+    <button class="send-btn {{inputValue ? 'send-btn-active' : ''}}" bindtap="sendMessage">
+      <view>发送</view>
+    </button>
+  </view>
+
+  <!-- 悬浮球 - 仅从答题页面跳转时显示 -->
+  <view wx:if="{{showFloatBtn}}" class="ai-float-container">
+    <view class="ai-float-bubble {{showBubble ? 'show' : ''}}">
+      <text>{{bubbleText}}</text>
+    </view>
+    <view 
+      class="ai-float-btn {{floatBtnClass}}" 
+      bindtap="onFloatBtnTap" 
+      bindtouchstart="onFloatBtnTouchStart"
+      bindtouchend="onFloatBtnTouchEnd"
+      bindtouchcancel="onFloatBtnTouchEnd"
+    >
+      <text class="float-icon">{{floatIcon}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "custom-tab-bar": "/custom-tab-bar/index"
+  },
+  "navigationBarTitleText": "ai",
+  "navigationBarBackgroundColor": "#667eea",
+  "navigationBarTextStyle": "white"
+}
