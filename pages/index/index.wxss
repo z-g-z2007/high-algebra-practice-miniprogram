@@ -1,0 +1,196 @@
+.container {
+  height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40rpx 10rpx 140rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-card {
+  background: #fffef0;
+  border-radius: 12rpx;
+  padding: 60rpx 40rpx;
+  margin-bottom: 50rpx;
+  position: relative;
+  box-shadow: 5rpx 5rpx 20rpx rgba(0, 0, 0, 0.2);
+  flex-shrink: 0;
+  border: 2rpx solid #feca57;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.quote-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12rpx;
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  border-radius: 12rpx 12rpx 0 0;
+}
+
+.quote-icon {
+  font-size: 64rpx;
+  color: #feca57;
+  line-height: 1;
+  margin-bottom: 20rpx;
+  display: block;
+}
+
+.quote-text {
+  display: block;
+  font-size: 36rpx;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 30rpx;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.quote-author {
+  display: block;
+  font-size: 30rpx;
+  color: #666;
+  text-align: right;
+  font-weight: 500;
+}
+
+.menu-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 32rpx;
+  justify-content: flex-start;
+}
+
+.menu-item {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6rpx 24rpx rgba(0, 0, 0, 0.12);
+  position: relative;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.menu-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20rpx;
+}
+
+.menu-item:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  position: relative;
+  z-index: 1;
+}
+
+.menu-icon {
+  font-size: 56rpx;
+  width: 100rpx;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(102, 126, 234, 0.15);
+  border-radius: 20rpx;
+}
+
+.menu-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.menu-desc {
+  font-size: 28rpx;
+  color: #888;
+}
+
+.menu-arrow {
+  font-size: 44rpx;
+  color: #ccc;
+  font-weight: bold;
+  position: relative;
+  z-index: 1;
+}
+
+/* 练习报告区域 */
+.report-section {
+  padding: 0rpx 20rpx 40rpx;
+  position: relative;
+  top: -150rpx;
+}
+
+.report-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 20rpx;
+  padding: 32rpx 24rpx;
+  box-shadow: 0 12rpx 24rpx rgba(37, 99, 235, 0.25);
+  transition: all 0.3s ease;
+}
+
+.report-card:active {
+  transform: translateY(4rpx);
+  box-shadow: 0 6rpx 16rpx rgba(37, 99, 235, 0.2);
+}
+
+.report-icon {
+  font-size: 60rpx;
+  margin-right: 24rpx;
+  flex-shrink: 0;
+  text-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.report-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.report-title {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 8rpx;
+  display: block;
+}
+
+.report-desc {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.4;
+  display: block;
+}
+
+.report-card .menu-arrow {
+  color: #ffffff;
+  font-size: 36rpx;
+  opacity: 0.9;
+  flex-shrink: 0;
+}
