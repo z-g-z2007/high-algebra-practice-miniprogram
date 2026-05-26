@@ -1,0 +1,28 @@
+<view class="start-container">
+  <video class="ad-video" src="{{adVideoUrl}}" controls="{{false}}" show-center-play-btn="{{false}}" show-play-btn="{{false}}" show-fullscreen-btn="{{false}}" autoplay="{{true}}" loop="{{false}}" enable-play-gesture="{{false}}" bindtimeupdate="onVideoTimeUpdate" bindended="onVideoEnded" bindplay="onVideoPlay" binderror="onVideoError"></video>
+
+  <view class="skip-box" wx:if="{{!isShowModal && !isVideoEnded}}" bindtap="skipCountdown">
+    <text class="skip-text">跳过</text>
+    <text class="countdown-num">{{countdown}}</text>
+  </view>
+
+  <view class="modal-mask" wx:if="{{isShowModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-icon-text">📋</text>
+      </view>
+      <view class="modal-title">隐私保护指引</view>
+      <view class="modal-desc">感谢您使用本小程序！在使用前，请您仔细阅读并同意以下隐私保护指引：</view>
+      <view class="privacy-content">
+        <view class="privacy-item">1. 本小程序将获取您的昵称、头像等信息以提供更好的用户体验</view>
+        <view class="privacy-item">2. 您在使用过程中产生的学习数据将存储在本地设备中</view>
+        <view class="privacy-item">3. 我们承诺不会将您的个人信息用于任何商业用途</view>
+        <view class="privacy-item">4. 如有任何疑问，请联系开发者进行处理</view>
+      </view>
+      <view class="modal-btns">
+        <button class="btn cancel" bindtap="onRefuse">暂不使用</button>
+        <button class="btn confirm" bindtap="onAgree">同意并进入</button>
+      </view>
+    </view>
+  </view>
+</view>
