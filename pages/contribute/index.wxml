@@ -1,0 +1,290 @@
+<view class="container">
+  <view class="form-section">
+    <view class="form-title">题目信息</view>
+
+    <view class="input-group">
+      <text class="input-label">题目类型</text>
+      <picker class="picker-field" mode="selector" range="{{questionTypes}}" value="{{questionTypeIndex}}" bindchange="onQuestionTypeChange">
+        <view class="picker-value">{{questionTypes[questionTypeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">难度等级</text>
+      <picker class="picker-field" mode="selector" range="{{difficultyLevels}}" value="{{difficultyIndex}}" bindchange="onDifficultyChange">
+        <view class="picker-value">{{difficultyLevels[difficultyIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">题目描述</text>
+      <textarea class="textarea-field" placeholder="请输入题目内容" value="{{questionContent}}" bindinput="onQuestionContentInput"></textarea>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{questionTypeIndex === 0}}">
+    <view class="form-title">线性变换-2D 题目数据</view>
+
+    <view class="input-group">
+      <text class="input-label">原向量 v = ( ?, ? )ᵀ</text>
+      <view class="vector-input-row">
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="v1"><text>{{v1 || '?'}}</text></view>
+        <text class="vector-sep">,</text>
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="v1"><text>{{v2 || '?'}}</text></view>
+      </view>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">变换后期望向量 v' = ( ?, ? )ᵀ</text>
+      <view class="vector-input-row">
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="resultX"><text>{{resultX || '?'}}</text></view>
+        <text class="vector-sep">,</text>
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="resultY"><text>{{resultY || '?'}}</text></view>
+      </view>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">请填写 2×2 变换矩阵 A</text>
+      <view class="process-card">
+        <view class="process-row">
+          <text class="process-label">x' = </text>
+          <view class="matrix-cell" bindtap="onMatrixCellTap" data-field="a11"><text>{{a11 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">x</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix-cell" bindtap="onMatrixCellTap" data-field="a12"><text>{{a12 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">y</text>
+        </view>
+        <view class="process-row">
+          <text class="process-label">y' = </text>
+          <view class="matrix-cell" bindtap="onMatrixCellTap" data-field="a21"><text>{{a21 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">x</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix-cell" bindtap="onMatrixCellTap" data-field="a22"><text>{{a22 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">y</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{questionTypeIndex === 1}}">
+    <view class="form-title">线性变换-3D 题目数据</view>
+
+    <view class="input-group">
+      <text class="input-label">原向量 v = ( ?, ?, ? )ᵀ</text>
+      <view class="vector-input-row">
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="v1"><text>{{v1 || '?'}}</text></view>
+        <text class="vector-sep">,</text>
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="v2"><text>{{v2 || '?'}}</text></view>
+        <text class="vector-sep">,</text>
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="v3"><text>{{v3 || '?'}}</text></view>
+      </view>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">变换后期望向量 v' = ( ?, ?, ? )ᵀ</text>
+      <view class="vector-input-row">
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="resultX"><text>{{resultX || '?'}}</text></view>
+        <text class="vector-sep">,</text>
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="resultY"><text>{{resultY || '?'}}</text></view>
+        <text class="vector-sep">,</text>
+        <view class="vector-cell" bindtap="onVectorCellTap" data-vector="resultZ"><text>{{resultZ || '?'}}</text></view>
+      </view>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">请填写 3×3 变换矩阵 A</text>
+      <view class="process-card">
+        <view class="process-row">
+          <text class="process-label">x' = </text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a11"><text>{{a11 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">x</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a12"><text>{{a12 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">y</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a13"><text>{{a13 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">z</text>
+        </view>
+        <view class="process-row">
+          <text class="process-label">y' = </text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a21"><text>{{a21 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">x</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a22"><text>{{a22 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">y</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a23"><text>{{a23 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">z</text>
+        </view>
+        <view class="process-row">
+          <text class="process-label">z' = </text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a31"><text>{{a31 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">x</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a32"><text>{{a32 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">y</text>
+          <text class="matrix-op">+</text>
+          <view class="matrix3d-cell" bindtap="onMatrixCellTap" data-field="a33"><text>{{a33 || '?'}}</text></view>
+          <text class="matrix-op">×</text>
+          <text class="var-text">z</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section" wx:if="{{questionTypeIndex === 2}}">
+    <view class="form-title">初等变换 题目数据</view>
+
+    <view class="input-group">
+      <text class="input-label">矩阵阶数</text>
+      <picker class="picker-field" mode="selector" range="{{matrixSizes}}" value="{{matrixSizeIndex}}" bindchange="onMatrixSizeChange">
+        <view class="picker-value">{{matrixSizes[matrixSizeIndex]}}×{{matrixSizes[matrixSizeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">目标形式</text>
+      <picker class="picker-field" mode="selector" range="{{targetTypes}}" value="{{targetTypeIndex}}" bindchange="onTargetTypeChange">
+        <view class="picker-value">{{targetTypes[targetTypeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">初始矩阵</text>
+      <view class="elem-matrix-box">
+        <view class="elem-row-labels">
+          <view class="elem-row-label"><text>R₁</text></view>
+          <view class="elem-row-label"><text>R₂</text></view>
+          <view class="elem-row-label" wx:if="{{currentSize >= 3}}"><text>R₃</text></view>
+          <view class="elem-row-label" wx:if="{{currentSize >= 4}}"><text>R₄</text></view>
+        </view>
+        <view class="elem-matrix-grid">
+          <view class="elem-matrix-row">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="0" data-matrix="initial"><text>{{initialMatrixRows[0][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="1" data-matrix="initial"><text>{{initialMatrixRows[0][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="2" data-matrix="initial" wx:if="{{currentSize >= 3}}"><text>{{initialMatrixRows[0][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="3" data-matrix="initial" wx:if="{{currentSize >= 4}}"><text>{{initialMatrixRows[0][3] || '?'}}</text></view>
+          </view>
+          <view class="elem-matrix-row">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="0" data-matrix="initial"><text>{{initialMatrixRows[1][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="1" data-matrix="initial"><text>{{initialMatrixRows[1][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="2" data-matrix="initial" wx:if="{{currentSize >= 3}}"><text>{{initialMatrixRows[1][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="3" data-matrix="initial" wx:if="{{currentSize >= 4}}"><text>{{initialMatrixRows[1][3] || '?'}}</text></view>
+          </view>
+          <view class="elem-matrix-row" wx:if="{{currentSize >= 3}}">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="0" data-matrix="initial"><text>{{initialMatrixRows[2][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="1" data-matrix="initial"><text>{{initialMatrixRows[2][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="2" data-matrix="initial" wx:if="{{currentSize >= 3}}"><text>{{initialMatrixRows[2][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="3" data-matrix="initial" wx:if="{{currentSize >= 4}}"><text>{{initialMatrixRows[2][3] || '?'}}</text></view>
+          </view>
+          <view class="elem-matrix-row" wx:if="{{currentSize >= 4}}">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="0" data-matrix="initial"><text>{{initialMatrixRows[3][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="1" data-matrix="initial"><text>{{initialMatrixRows[3][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="2" data-matrix="initial" wx:if="{{currentSize >= 3}}"><text>{{initialMatrixRows[3][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="3" data-matrix="initial" wx:if="{{currentSize >= 4}}"><text>{{initialMatrixRows[3][3] || '?'}}</text></view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">目标矩阵（化简后的结果）</text>
+      <view class="elem-matrix-box">
+        <view class="elem-row-labels">
+          <view class="elem-row-label"><text>R₁</text></view>
+          <view class="elem-row-label"><text>R₂</text></view>
+          <view class="elem-row-label" wx:if="{{currentSize >= 3}}"><text>R₃</text></view>
+          <view class="elem-row-label" wx:if="{{currentSize >= 4}}"><text>R₄</text></view>
+        </view>
+        <view class="elem-matrix-grid">
+          <view class="elem-matrix-row">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="0" data-matrix="target"><text>{{targetMatrixRows[0][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="1" data-matrix="target"><text>{{targetMatrixRows[0][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="2" data-matrix="target" wx:if="{{currentSize >= 3}}"><text>{{targetMatrixRows[0][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="0" data-col="3" data-matrix="target" wx:if="{{currentSize >= 4}}"><text>{{targetMatrixRows[0][3] || '?'}}</text></view>
+          </view>
+          <view class="elem-matrix-row">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="0" data-matrix="target"><text>{{targetMatrixRows[1][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="1" data-matrix="target"><text>{{targetMatrixRows[1][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="2" data-matrix="target" wx:if="{{currentSize >= 3}}"><text>{{targetMatrixRows[1][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="1" data-col="3" data-matrix="target" wx:if="{{currentSize >= 4}}"><text>{{targetMatrixRows[1][3] || '?'}}</text></view>
+          </view>
+          <view class="elem-matrix-row" wx:if="{{currentSize >= 3}}">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="0" data-matrix="target"><text>{{targetMatrixRows[2][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="1" data-matrix="target"><text>{{targetMatrixRows[2][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="2" data-matrix="target" wx:if="{{currentSize >= 3}}"><text>{{targetMatrixRows[2][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="2" data-col="3" data-matrix="target" wx:if="{{currentSize >= 4}}"><text>{{targetMatrixRows[2][3] || '?'}}</text></view>
+          </view>
+          <view class="elem-matrix-row" wx:if="{{currentSize >= 4}}">
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="0" data-matrix="target"><text>{{targetMatrixRows[3][0] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="1" data-matrix="target"><text>{{targetMatrixRows[3][1] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="2" data-matrix="target" wx:if="{{currentSize >= 3}}"><text>{{targetMatrixRows[3][2] || '?'}}</text></view>
+            <view class="elem-matrix-cell" bindtap="onElemCellTap" data-row="3" data-col="3" data-matrix="target" wx:if="{{currentSize >= 4}}"><text>{{targetMatrixRows[3][3] || '?'}}</text></view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="form-section">
+    <view class="form-title">作者信息</view>
+
+    <view class="input-group">
+      <text class="input-label">作者姓名</text>
+      <input class="input-field" type="text" placeholder="请输入作者姓名" value="{{authorName}}" bindinput="onAuthorNameInput" />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">邮箱地址</text>
+      <input class="input-field" type="text" placeholder="请输入邮箱地址（选填）" value="{{authorEmail}}" bindinput="onAuthorEmailInput" />
+    </view>
+  </view>
+
+  <view class="btn-container">
+    <button class="submit-btn" bindtap="handleSubmitQuestion">提交题目</button>
+  </view>
+
+  <view class="custom-keyboard {{showKeyboard ? 'show' : ''}}" wx:if="{{showKeyboard}}">
+    <view class="keyboard-display">
+      <text class="keyboard-title">输入数值</text>
+      <view class="keyboard-current">
+        <text>{{keyboardValue || '0'}}</text>
+      </view>
+    </view>
+    <view class="keyboard-keys">
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="1"><text>1</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="2"><text>2</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="3"><text>3</text></view>
+        <view class="key-btn key-op" bindtap="onKeyInput" data-value="-"><text>−</text></view>
+        <view class="key-btn key-clear" bindtap="onKeyClear"><text>C</text></view>
+      </view>
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="4"><text>4</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="5"><text>5</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="6"><text>6</text></view>
+        <view class="key-btn key-op" bindtap="onKeyInput" data-value="."><text>.</text></view>
+        <view class="key-btn key-backspace" bindtap="onKeyBackspace"><text>⌫</text></view>
+      </view>
+      <view class="key-row">
+        <view class="key-btn" bindtap="onKeyInput" data-value="7"><text>7</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="8"><text>8</text></view>
+        <view class="key-btn" bindtap="onKeyInput" data-value="9"><text>9</text></view>
+        <view class="key-btn key-zero" bindtap="onKeyInput" data-value="0"><text>0</text></view>
+        <view class="key-btn key-confirm" bindtap="onKeyConfirm"><text>确定</text></view>
+      </view>
+    </view>
+  </view>
+</view>
